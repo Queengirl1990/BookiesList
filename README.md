@@ -3,13 +3,12 @@
 Projekt während der App-Entwickler-Weiterbildung. Zur Verwaltung ungelesener Bücher.
 wegen Gredle inkompatibilität neu aufgesetzt
 
-Row(
-  children: [
-    Image.asset("assets/images/home.png", width: 200),
-    Image.asset("assets/images/wish.png", width: 200),
-    Image.asset("assets/images/log_in.png", width: 200),
-  ],
-)
+<div style="display: flex;">
+   <img src="assets/images/home.png" alt="Homescreen" width="200"/>
+   <img src="assets/images/wish.png" alt="Wishlist" width="200"/>
+   <img src="assets/images/log_in.png" alt="Login" width="200"/>
+</div>
+
 
 Packages: 
 - curved_navigation_bar: Navigation
