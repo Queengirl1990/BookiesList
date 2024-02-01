@@ -1,4 +1,4 @@
-# bookieslist
+# BookiesList
 
 Projekt während der App-Entwickler-Weiterbildung. Zur Verwaltung ungelesener Bücher.
 
@@ -34,4 +34,4 @@ Packages:
 - flutter_riverpod: Riverpod
 - riverpod_annotation: Riverpod
 - animate_do - Animation
-# BookiesList
+
