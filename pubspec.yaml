@@ -75,7 +75,8 @@ flutter:
     - assets/images/wish.png
     - assets/images/onboarding_book.png
     - assets/images/stacked-books.png
-    - assets/images/login_logo.png 
+    - assets/images/login_logo.png
+    - assets/images/log_in.png  
 
     - assets/bookimages/life_after.jpg
     - assets/bookimages/das-ist-erst.jpg
