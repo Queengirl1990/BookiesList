@@ -94,9 +94,9 @@ class VolumeInfo {
     required this.isbn,
     required this.ratingsCount,
     required this.pageCount,
-    required this.publishedDate,
-    required this.description,
-    required this.infoLink,
+    this.description,
+    this.infoLink,
+    this.publishedDate,
   });
 
   factory VolumeInfo.fromJson(Map<String, dynamic> parsedJson) {
@@ -104,9 +104,9 @@ class VolumeInfo {
     List<ISBN>? isbn = list?.map((i) => ISBN.fromJson(i)).toList();
 
     return VolumeInfo(
-      title: parsedJson['title'] as String? ?? '',
-      publisher: parsedJson['publisher'] as String? ?? '',
-      publishedDate: parsedJson['publishedDate'] as String? ?? '',
+      title: parsedJson['title'] as String?,
+      publisher: parsedJson['publisher'] as String?,
+      publishedDate: parsedJson['publishedDate'] as String?,
       authors: (parsedJson['authors'] as List?)
           ?.map((author) => author as String)
           .toList(),
@@ -114,14 +114,12 @@ class VolumeInfo {
           ?.map((category) => category as String)
           .toList(),
       averageRating: parsedJson['averageRating'] ?? 0.0,
-      pageCount: parsedJson['pageCount'] as int? ?? 0,
-      ratingsCount: parsedJson['ratingsCount'] as int? ?? 0,
-      description: parsedJson['description'] as String? ?? '',
+      image: ImageLinks.fromJson(parsedJson['imageLinks']),
       isbn: isbn,
-      infoLink: parsedJson['infoLink'] as String? ?? '',
-      image: ImageLinks?.fromJson(
-              parsedJson['imageLinks'] as Map<String, dynamic>?) ??
-          ImageLinks(thumb: ''),
+      ratingsCount: parsedJson['ratingsCount'] as int?,
+      pageCount: parsedJson['pageCount'] as int?,
+      description: parsedJson['description'] as String?,
+      infoLink: parsedJson['infoLink'] as String?,
     );
   }
 }

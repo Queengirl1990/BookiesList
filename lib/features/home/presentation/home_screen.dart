@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           '/giveAway': (context) => const GiveAwayScreen(),
           '/newList': (context) => const NewListScreen(),
           '/randomGenerator': (context) => const RandomGeneratorScreen(),
-          '/settings': (context) => const SettingsScreen(),
+          // '/settings': (context) => const SettingsScreen(),
         },
         theme: ThemeData.light().copyWith(
           primaryColor: CustomTheme.darkRed,

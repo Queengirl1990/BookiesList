@@ -1,7 +1,7 @@
 # BookiesList
 
 Projekt während der App-Entwickler-Weiterbildung. Zur Verwaltung ungelesener Bücher. 
-Wegen Gredle inkompatibilität neu aufgesetzt
+Wegen Gredle inkompatibilität neu aufgesetzt.
 Neues Farbdesign in arbeit
 
 <div style="display: flex;">

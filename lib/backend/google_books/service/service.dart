@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../models/book.dart';
-/*
+
 class GoogleBooksService {
   Future<List<Book>> getBooks(String url, String index, String max) async {
     final uri = Uri.https('books.googleapis.com', '/books/v1/volumes', {
@@ -23,41 +23,46 @@ class GoogleBooksService {
     }
   }
 
-   List<Book> _parseBookJson(String jsonStr) {
+  List<Book> _parseBookJson(String jsonStr) {
     final jsonMap = json.decode(jsonStr);
 
     if (jsonMap['totalItems'] != 0) {
-      final volume = Book.fromJson(jsonMap);
       var formatter = NumberFormat('#,##,##0');
 
-       final x = volume.items
+      final x = (jsonMap['items'] as List)
           .map(
             (result) => Book(
-              totalItems: volume.totalItems,
-              items: volume.items,
-              title: result.volumeinfo?.title ?? 'No Title',
-              authors:
-                  result.volumeinfo?.authors?.join(', ') ?? 'Unknown Author',
-              thumbnailUrl: result.volumeinfo?.image?.thumb,
-              averageRating:
-                  result.volumeinfo?.averageRating?.toDouble() ?? 0.0,
-              categories: result.volumeinfo?.categories ?? [],
-              isbn13: result.volumeinfo?.isbn?[0]?.iSBN13 ?? 'Unknown ISBN',
-              description: result.volumeinfo?.description ?? 'No Description',
-              ratingCount:
-                  formatter.format(result.volumeinfo?.ratingsCount ?? 0),
-              pageCount: result.volumeinfo?.pageCount?.toString() ?? '0',
-              publishedDate: result.volumeinfo?.publishedDate ?? 'Unknown Date',
-              publisher: result.volumeinfo?.publisher ?? 'Unknown Publisher',
-              infoLink: result.volumeinfo?.infoLink ?? 'No Info Link',
-              embeddable: result.accessInfo?.embeddable ?? false,
+              totalItems: jsonMap['totalItems'],
+              items: (jsonMap['items'] as List).map((item) {
+                final volumeInfo = item['volumeInfo'];
+                final accessInfo = item['accessInfo'];
+
+                return Item(
+                  volumeInfo: VolumeInfo.fromJson(volumeInfo ?? {}),
+                  accessInfo: AccessInfo.fromJson(accessInfo ?? {}),
+                );
+              }).toList(),
+              title: volumeInfo['title'] ?? 'No Title',
+              authors: volumeInfo['authors']?.join(', ') ?? 'Unknown Author',
+              thumbnailUrl:
+                  volumeInfo['imageLinks']?['smallThumbnail'] ?? 'No Thumbnail',
+              averageRating: volumeInfo['averageRating']?.toDouble() ?? 0.0,
+              categories: volumeInfo['categories']?.cast<String>() ?? [],
+              isbn13: volumeInfo['industryIdentifiers']?[0]['identifier'] ??
+                  'Unknown ISBN',
+              description: volumeInfo['description'] ?? 'No Description',
+              ratingCount: formatter.format(volumeInfo['ratingsCount'] ?? 0),
+              pageCount: volumeInfo['pageCount']?.toString() ?? '0',
+              publishedDate: volumeInfo['publishedDate'] ?? 'Unknown Date',
+              publisher: volumeInfo['publisher'] ?? 'Unknown Publisher',
+              infoLink: volumeInfo['infoLink'] ?? 'No Info Link',
+              embeddable: accessInfo['embeddable'] ?? false,
             ),
           )
           .toList();
 
       return x;
     }
-    return [Book(totalItems: 0, items: [])]; 
-    }
+    return [Book(totalItems: 0, items: [])];
   }
-}*/
+}
