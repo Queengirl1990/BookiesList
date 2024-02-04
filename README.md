@@ -5,9 +5,10 @@ Wegen Gredle inkompatibilität neu aufgesetzt.
 Neues Farbdesign in arbeit
 
 <div style="display: flex;">
-   <img src="assets/images/home.png" alt="Homescreen" width="200"/>
-   <img src="assets/images/wish.png" alt="Wishlist" width="200"/>
+   <img src="assets/bookimages/homescreen.png" alt="Homescreen" width="200"/>
+   <img src="assets/bookimages/currently.png" alt="Aktueller Lesestoff" width="200"/>
    <img src="assets/images/log_in.png" alt="Login" width="200"/>
+   <img src="assets/bookimages/profil.png" alt="Profil" width="200"/>
 </div>
 
 
