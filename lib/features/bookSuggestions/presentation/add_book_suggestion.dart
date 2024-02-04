@@ -8,6 +8,9 @@ import 'dart:async';
 
 import '../../../backend/styles/appbar.dart';
 
+//mehr laden button entfernt da er fehler geworfen hat, nochmal überarbeiten
+//Appbar noch darkred
+
 void main() {
   runApp(
     ProviderScope(
@@ -21,6 +24,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: NewBookAdd(),
+      theme: ThemeData.light().copyWith(
+        primaryColor: CustomTheme.darkRed,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: CustomTheme.darkRed, // Änderung hier
+          elevation: 0,
+        ),
+      ),
     );
   }
 }
@@ -50,84 +61,97 @@ class _NewBookAddState extends State<NewBookAdd> {
           myCircularAvatar(),
         ],
       ),
-      backgroundColor: CustomTheme.darkRed,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            "Neues Buch hinzufügen",
-            style: TextStyle(
-              fontFamily: 'DancingScript',
-              fontWeight: FontWeight.normal,
-              fontSize: 24,
-              color: CustomTheme.snowWhite,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: <Color>[
+              CustomTheme.loginGradientStart,
+              CustomTheme.loginGradientEnd,
+            ],
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 1.0),
+            stops: <double>[0.0, 1.0],
+            tileMode: TileMode.clamp,
           ),
-          const SizedBox(height: 20),
-          const MyDividerWithIcons(),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    style: const TextStyle(color: CustomTheme.snowWhite),
-                    decoration: InputDecoration(
-                      hintText: 'Suche nach Büchern...',
-                      hintStyle: const TextStyle(color: CustomTheme.snowWhite),
-                      filled: true,
-                      fillColor: CustomTheme.snowWhite.withOpacity(0.2),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              "Neues Buch hinzufügen",
+              style: TextStyle(
+                fontFamily: 'DancingScript',
+                fontWeight: FontWeight.normal,
+                fontSize: 24,
+                color: CustomTheme.snowWhite,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const MyDividerWithIcons(),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      style: const TextStyle(color: CustomTheme.snowWhite),
+                      decoration: InputDecoration(
+                        hintText: 'Suche nach Büchern...',
+                        hintStyle:
+                            const TextStyle(color: CustomTheme.snowWhite),
+                        filled: true,
+                        fillColor: CustomTheme.snowWhite.withOpacity(0.2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
+                      onChanged: (value) {
+                        // Eingabe verarbeiten
+                      },
+                      onSubmitted: (value) {
+                        _searchBooks();
+                      },
                     ),
-                    onChanged: (value) {
-                      // Eingabe verarbeiten
-                    },
-                    onSubmitted: (value) {
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send, color: CustomTheme.snowWhite),
+                    onPressed: () {
+                      // Suche starten
                       _searchBooks();
                     },
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send, color: CustomTheme.snowWhite),
-                  onPressed: () {
-                    // Suche starten
-                    _searchBooks();
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _searchResults.length,
-              itemBuilder: (context, index) {
-                final BookInfo result = _searchResults[index];
-                return ListTile(
-                  leading: result.thumbnailUrl != null
-                      ? Image.network(
-                          result.thumbnailUrl!,
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        )
-                      : const SizedBox.shrink(),
-                  title: Text(result.title,
-                      style: const TextStyle(color: CustomTheme.snowWhite)),
-                  // Hier können Sie die Suchergebnisse in der Liste darstellen
-                );
-              },
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _searchResults.length,
+                itemBuilder: (context, index) {
+                  final BookInfo result = _searchResults[index];
+                  return ListTile(
+                    leading: result.thumbnailUrl != null
+                        ? Image.network(
+                            result.thumbnailUrl!,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          )
+                        : const SizedBox.shrink(),
+                    title: Text(result.title,
+                        style: const TextStyle(color: CustomTheme.snowWhite)),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -143,11 +167,10 @@ class _NewBookAddState extends State<NewBookAdd> {
     );
 
     if (response.statusCode == 200) {
-      // Hier können Sie die Suchergebnisse verarbeiten
       List<BookInfo> searchResults =
           (json.decode(response.body)['items'] as List)
               .map((book) => BookInfo.fromApi(book))
-              .take(5) // Begrenzen Sie die Anzahl der angezeigten Ergebnisse
+              .take(5)
               .toList();
 
       setState(() {
