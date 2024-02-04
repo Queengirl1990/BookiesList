@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart'; //navigationsleiste
+import '../../../backend/styles/appbar.dart';
 import '../../../backend/styles/theme.dart';
 import '../../home/presentation/home_screen.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';

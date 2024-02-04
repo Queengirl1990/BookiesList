@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../backend/styles/appbar.dart';
 import '../../profil/presentation/profile_screen.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/styles/theme.dart';

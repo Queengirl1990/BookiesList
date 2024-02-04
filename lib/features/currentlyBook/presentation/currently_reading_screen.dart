@@ -7,9 +7,10 @@ import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/styles/appbar.dart';
 import '../../../backend/widgets/showMoveBookDialog.dart';
+import '../../profil/presentation/profile_screen.dart';
 
 void main() {
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,8 +18,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CurrentlyReadingScreen(),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[
+            CustomTheme.loginGradientStart,
+            CustomTheme.loginGradientEnd,
+          ],
+          begin: FractionalOffset(0.0, 0.0),
+          end: FractionalOffset(1.0, 1.0),
+          stops: <double>[0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
+      ),
+      child: MaterialApp(
+        home: const CurrentlyReadingScreen(),
+        theme: ThemeData.light().copyWith(
+          primaryColor: CustomTheme.darkRed,
+          scaffoldBackgroundColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -124,8 +147,7 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context),
-      backgroundColor: CustomTheme.darkRed,
+      appBar: CustomAppBar(), // Hier das CustomAppBar-Widget einbinden
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -218,6 +240,39 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+          color: CustomTheme.snowWhite,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyProfilPage()),
+            );
+          },
+          child: myCircularAvatar(),
+        ),
+      ],
     );
   }
 }

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import '../../../backend/styles/appbar.dart';
+
 void main() {
   runApp(
     ProviderScope(
@@ -52,8 +54,8 @@ class _NewBookAddState extends State<NewBookAdd> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             "Neues Buch hinzufügen",
             style: TextStyle(
               fontFamily: 'DancingScript',
@@ -62,9 +64,9 @@ class _NewBookAddState extends State<NewBookAdd> {
               color: CustomTheme.snowWhite,
             ),
           ),
-          SizedBox(height: 20),
-          MyDividerWithIcons(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
+          const MyDividerWithIcons(),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -72,18 +74,18 @@ class _NewBookAddState extends State<NewBookAdd> {
                 Expanded(
                   child: TextField(
                     controller: _searchController,
-                    style: TextStyle(color: CustomTheme.snowWhite),
+                    style: const TextStyle(color: CustomTheme.snowWhite),
                     decoration: InputDecoration(
                       hintText: 'Suche nach Büchern...',
-                      hintStyle: TextStyle(color: CustomTheme.snowWhite),
+                      hintStyle: const TextStyle(color: CustomTheme.snowWhite),
                       filled: true,
                       fillColor: CustomTheme.snowWhite.withOpacity(0.2),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                     ),
                     onChanged: (value) {
                       // Eingabe verarbeiten
@@ -94,7 +96,7 @@ class _NewBookAddState extends State<NewBookAdd> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send, color: CustomTheme.snowWhite),
+                  icon: const Icon(Icons.send, color: CustomTheme.snowWhite),
                   onPressed: () {
                     // Suche starten
                     _searchBooks();
@@ -103,7 +105,7 @@ class _NewBookAddState extends State<NewBookAdd> {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
               itemCount: _searchResults.length,
@@ -117,9 +119,9 @@ class _NewBookAddState extends State<NewBookAdd> {
                           height: 50,
                           fit: BoxFit.cover,
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   title: Text(result.title,
-                      style: TextStyle(color: CustomTheme.snowWhite)),
+                      style: const TextStyle(color: CustomTheme.snowWhite)),
                   // Hier können Sie die Suchergebnisse in der Liste darstellen
                 );
               },
