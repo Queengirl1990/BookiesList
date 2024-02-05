@@ -38,7 +38,7 @@ class _NewBookAddState extends State<NewBookAdd> {
               SizedBox(height: MediaQuery.of(context).padding.top),
               Container(
                 height: 56.0,
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 color: Colors.transparent,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +116,7 @@ class _NewBookAddState extends State<NewBookAdd> {
                       const SizedBox(height: 20),
                       ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: _searchResults.length,
                         itemBuilder: (context, index) {
                           final BookInfo result = _searchResults[index];

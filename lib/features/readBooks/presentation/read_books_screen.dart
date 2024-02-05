@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart'; //navigationsleiste
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../backend/styles/appbar.dart';
 import '../../../backend/styles/theme.dart';
-import '../../home/presentation/home_screen.dart';
-import '../../../backend/widgets/bookieslist_widgets.dart';
-import 'package:shimmer/shimmer.dart'; //ladefunktion
 import '../../../backend/libary/read_books_datenbank.dart';
+import '../../../backend/widgets/bookieslist_widgets.dart';
+import '../../home/presentation/home_screen.dart';
 
 void main() {
   runApp(const ReadBooksApp());
 }
 
 class ReadBooksApp extends StatelessWidget {
-  const ReadBooksApp({super.key});
+  const ReadBooksApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ReadBooksApp extends StatelessWidget {
 }
 
 class ReadBooksScreen extends StatefulWidget {
-  const ReadBooksScreen({super.key});
+  const ReadBooksScreen({Key? key}) : super(key: key);
 
   @override
   _ReadBooksScreenState createState() => _ReadBooksScreenState();
@@ -44,7 +44,6 @@ class _ReadBooksScreenState extends State<ReadBooksScreen> {
       if (mounted) {
         setState(() {
           _showShimmer = false;
-          //shimmer effekt während die Bilder laden
         });
       }
     });
@@ -57,33 +56,116 @@ class _ReadBooksScreenState extends State<ReadBooksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Gelesene Bücher",
-          style: TextStyle(
-            color: CustomTheme.snowWhite,
-            fontFamily: 'DancingScript',
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: CustomTheme.getBackgroundGradient(),
+        child: Column(
+          children: [
+            AppBar(
+              title: const Text(
+                "Gelesene Bücher",
+                style: TextStyle(
+                  color: CustomTheme.snowWhite,
+                  fontFamily: 'DancingScript',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                color: CustomTheme.snowWhite,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  // Zurücknavigieren
+                },
+              ),
+              actions: [
+                myCircularAvatar(),
+              ],
+            ),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 80 / 100,
+                ),
+                itemCount: readBooksList.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return GestureDetector(
+                      onTap: addNewBook,
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: CustomTheme.loginGradientStart,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: const SizedBox(
+                          width: 80,
+                          height: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                size: 40,
+                                color: CustomTheme.snowWhite,
+                              ),
+                              Text(
+                                "Neues Buch hinzufügen",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: CustomTheme.snowWhite,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    final bookKey = readBooksList.keys.elementAt(index - 1);
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigator.push
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        child: SizedBox(
+                          width: 80,
+                          height: 100,
+                          child: _showShimmer
+                              ? Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    width: 80,
+                                    height: 100,
+                                    color: CustomTheme.darkRed,
+                                  ),
+                                )
+                              : Image.asset(
+                                  readBooksList[bookKey]!['image']!,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
-        backgroundColor: CustomTheme.darkRed,
-        elevation: 0,
-        leading: IconButton(
-          color: CustomTheme.snowWhite,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Zurücknavigieren
-          },
-        ),
-        actions: [
-          myCircularAvatar(),
-        ],
       ),
-      backgroundColor: CustomTheme.darkRed,
       bottomNavigationBar: CurvedNavigationBar(
         index: currentPageIndex,
-        backgroundColor: CustomTheme.darkRed,
+        backgroundColor: CustomTheme.loginGradientStart,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,
         onTap: (int index) {
@@ -102,80 +184,6 @@ class _ReadBooksScreenState extends State<ReadBooksScreen> {
           Icon(Icons.settings, size: 30, color: Colors.white),
           Icon(Icons.help_outline, size: 30, color: Colors.white),
         ],
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 80 / 100,
-        ),
-        itemCount: readBooksList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return GestureDetector(
-              onTap: addNewBook,
-              child: Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: CustomTheme.darkRed,
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1.0,
-                  ),
-                ),
-                child: const SizedBox(
-                  width: 80,
-                  height: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        size: 40,
-                        color: CustomTheme.snowWhite,
-                      ),
-                      Text(
-                        "Neues Buch hinzufügen",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: CustomTheme.snowWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          } else {
-            final bookKey = readBooksList.keys.elementAt(index - 1);
-            return GestureDetector(
-              onTap: () {
-                // Navigator.push
-              },
-              child: Container(
-                margin: const EdgeInsets.all(8),
-                child: SizedBox(
-                  width: 80,
-                  height: 100,
-                  child: _showShimmer
-                      ? Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            width: 80,
-                            height: 100,
-                            color: CustomTheme.darkRed,
-                          ),
-                        )
-                      : Image.asset(
-                          readBooksList[bookKey]!['image']!,
-                          fit: BoxFit.cover,
-                        ),
-                ),
-              ),
-            );
-          }
-        },
       ),
     );
   }
