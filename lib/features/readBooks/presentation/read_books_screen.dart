@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../backend/styles/appbar.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/libary/read_books_datenbank.dart';
-import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../home/presentation/home_screen.dart';
 
 void main() {
