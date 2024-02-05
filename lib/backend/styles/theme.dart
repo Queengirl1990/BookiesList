@@ -22,4 +22,27 @@ class CustomTheme {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static BoxDecoration getBackgroundGradient() {
+    return const BoxDecoration(
+      gradient: LinearGradient(
+        colors: <Color>[loginGradientStart, loginGradientEnd],
+        begin: FractionalOffset(0.0, 0.0),
+        end: FractionalOffset(1.0, 1.0),
+        stops: <double>[0.0, 1.0],
+        tileMode: TileMode.clamp,
+      ),
+    );
+  }
+
+  static ThemeData getAppTheme() {
+    return ThemeData.light().copyWith(
+      primaryColor: darkRed,
+      scaffoldBackgroundColor: Colors.transparent,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+  }
 }

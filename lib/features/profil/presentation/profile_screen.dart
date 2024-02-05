@@ -20,27 +20,9 @@ class MyApp extends StatelessWidget {
         '/readBooks': (context) => const ReadBooksScreen(),
         '/yourGenres': (context) => const YourGenresScreen(),
       },
-      theme: ThemeData.light().copyWith(
-        primaryColor: CustomTheme.darkRed,
-        scaffoldBackgroundColor: Colors.transparent,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-      ),
+      theme: CustomTheme.getAppTheme(),
       home: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: <Color>[
-              CustomTheme.loginGradientStart,
-              CustomTheme.loginGradientEnd,
-            ],
-            begin: FractionalOffset(0.0, 0.0),
-            end: FractionalOffset(1.0, 1.0),
-            stops: <double>[0.0, 1.0],
-            tileMode: TileMode.clamp,
-          ),
-        ),
+        decoration: CustomTheme.getBackgroundGradient(),
         child: const MyProfilPage(),
       ),
     );
@@ -52,188 +34,173 @@ class MyProfilPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: <Color>[
-            CustomTheme.loginGradientStart,
-            CustomTheme.loginGradientEnd,
-          ],
-          begin: FractionalOffset(0.0, 0.0),
-          end: FractionalOffset(1.0, 1.0),
-          stops: <double>[0.0, 1.0],
-          tileMode: TileMode.clamp,
-        ),
-      ),
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: const [],
-            title: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: CustomTheme.snowWhite,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: const [],
+          title: Row(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: CustomTheme.snowWhite,
                 ),
-                const SizedBox(width: 8),
-                const Text(
-                  "Mein Profil",
-                  style: TextStyle(
-                    color: CustomTheme.snowWhite,
-                    fontFamily: 'DancingScript',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                "Mein Profil",
+                style: TextStyle(
+                  color: CustomTheme.snowWhite,
+                  fontFamily: 'DancingScript',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                const MyCircularAvatar(),
-                const SizedBox(height: 20),
-                const Text(
-                  "Queengirl",
+      ),
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const MyCircularAvatar(),
+              const SizedBox(height: 20),
+              const Text(
+                "Queengirl",
+                style: TextStyle(
+                  fontFamily: 'DancingScript',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/editProfil');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CustomTheme.snowWhite,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  elevation: 5,
+                ),
+                child: const Text(
+                  "Bearbeiten",
                   style: TextStyle(
-                    fontFamily: 'DancingScript',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                    color: Colors.white,
+                    color: CustomTheme.darkMode,
                   ),
                 ),
-                const SizedBox(height: 10),
-                ElevatedButton(
+              ),
+              const MyDividerWithIcons(),
+              const SizedBox(height: 10),
+              const Text(
+                "Schau dir mal wieder deine Lieblinge an",
+                style: TextStyle(
+                  fontFamily: 'DancingScript',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: CustomTheme.snowWhite,
+                ),
+              ),
+              const SizedBox(height: 20),
+              CarouselSlider.builder(
+                itemCount: bookInfoMap.length,
+                options: CarouselOptions(
+                  height: 200,
+                  viewportFraction: 0.4,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 2),
+                ),
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  final bookInfo = bookInfoMap.values.elementAt(index);
+                  final imagePath = bookCoverAssets[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: GestureDetector(
+                      onTap: () {
+                        _showImageDialog(context, bookInfo, imagePath);
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 130,
+                            child: Image.asset(
+                              imagePath,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/editProfil');
+                    Navigator.pushNamed(context, '/readBooks');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomTheme.snowWhite,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(0),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      side: BorderSide(color: CustomTheme.snowWhite),
                     ),
-                    elevation: 5,
+                    elevation: 10,
                   ),
                   child: const Text(
-                    "Bearbeiten",
-                    style: TextStyle(
-                      color: CustomTheme.darkMode,
-                    ),
+                    "Gelesene Bücher",
+                    style: TextStyle(color: CustomTheme.darkMode),
                   ),
                 ),
-                const MyDividerWithIcons(),
-                const SizedBox(height: 10),
-                const Text(
-                  "Schau dir mal wieder deine Lieblinge an",
-                  style: TextStyle(
-                    fontFamily: 'DancingScript',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                    color: CustomTheme.snowWhite,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                CarouselSlider.builder(
-                  itemCount: bookInfoMap.length,
-                  options: CarouselOptions(
-                    height: 200,
-                    viewportFraction: 0.4,
-                    enableInfiniteScroll: false,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 2),
-                  ),
-                  itemBuilder:
-                      (BuildContext context, int index, int realIndex) {
-                    final bookInfo = bookInfoMap.values.elementAt(index);
-                    final imagePath = bookCoverAssets[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: GestureDetector(
-                        onTap: () {
-                          _showImageDialog(context, bookInfo, imagePath);
-                        },
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              height: 130,
-                              child: Image.asset(
-                                imagePath,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/yourGenres');
                   },
-                ),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/readBooks');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        side: BorderSide(color: CustomTheme.snowWhite),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(0),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(20),
                       ),
-                      elevation: 10,
+                      side: BorderSide(color: CustomTheme.snowWhite),
                     ),
-                    child: const Text(
-                      "Gelesene Bücher",
-                      style: TextStyle(color: CustomTheme.darkMode),
-                    ),
+                    elevation: 10,
+                  ),
+                  child: const Text(
+                    "Deine Genres",
+                    style: TextStyle(color: CustomTheme.darkMode),
                   ),
                 ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/yourGenres');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        side: BorderSide(color: CustomTheme.snowWhite),
-                      ),
-                      elevation: 10,
-                    ),
-                    child: const Text(
-                      "Deine Genres",
-                      style: TextStyle(color: CustomTheme.darkMode),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
