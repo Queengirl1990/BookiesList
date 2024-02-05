@@ -21,11 +21,11 @@ class MyDividerWithIcons extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
+            Icon(Icons.favorite, size: 20, color: CustomTheme.snowWhite),
             SizedBox(width: 10),
-            Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
+            Icon(Icons.favorite, size: 20, color: CustomTheme.snowWhite),
             SizedBox(width: 10),
-            Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
+            Icon(Icons.favorite, size: 20, color: CustomTheme.snowWhite),
           ],
         ),
         SizedBox(

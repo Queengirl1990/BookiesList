@@ -147,7 +147,7 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(), // Hier das CustomAppBar-Widget einbinden
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
