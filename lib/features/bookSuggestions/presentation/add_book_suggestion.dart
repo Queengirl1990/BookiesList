@@ -35,12 +35,9 @@ class _NewBookAddState extends State<NewBookAdd> {
           ),
           Column(
             children: [
-              SizedBox(
-                  height: MediaQuery.of(context)
-                      .padding
-                      .top), // Adjust for status bar
+              SizedBox(height: MediaQuery.of(context).padding.top),
               Container(
-                height: 56.0, // AppBar height
+                height: 56.0,
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 color: Colors.transparent,
                 child: Row(
