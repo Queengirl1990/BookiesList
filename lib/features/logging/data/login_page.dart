@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void dispose() {
-    _pageController?.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -90,11 +90,11 @@ class _LoginPageState extends State<LoginPage>
                   children: <Widget>[
                     ConstrainedBox(
                       constraints: const BoxConstraints.expand(),
-                      child: SignIn(key: Key('signIn')),
+                      child: const SignIn(key: Key('signIn')),
                     ),
                     ConstrainedBox(
                       constraints: const BoxConstraints.expand(),
-                      child: SignUp(key: Key('signUp')),
+                      child: const SignUp(key: Key('signUp')),
                     ),
                   ],
                 ),
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _onSignUpButtonPress() {
-    _pageController?.animateToPage(1,
+    _pageController.animateToPage(1,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 }
