@@ -61,7 +61,7 @@ class _BookSuggestionScreenState extends State<BookSuggestionScreen> {
               ),
               const SizedBox(width: 8),
               const Text(
-                "Mein Profil",
+                "Deine Vorschläge",
                 style: TextStyle(
                   color: CustomTheme.snowWhite,
                   fontFamily: 'DancingScript',
