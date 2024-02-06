@@ -1,9 +1,11 @@
+import 'package:bookieslist/features/currentlyBook/presentation/currently_reading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../backend/styles/appbar.dart';
+import '../../../backend/widgets/bookInfoContainer.dart';
 import '../../profil/presentation/profile_screen.dart';
-import '../../../backend/widgets/bookieslist_widgets.dart';
+
 import '../../../backend/styles/theme.dart';
 import '../../unreadBooks/presentation/sub_screen.dart';
 import '../../unreadBooks/presentation/give_away_screen.dart';
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
           '/giveAway': (context) => const GiveAwayScreen(),
           '/newList': (context) => const NewListScreen(),
           '/randomGenerator': (context) => const RandomGeneratorScreen(),
+          '/currentlyReading': (context) => const CurrentlyReadingScreen(),
           // '/settings': (context) => const SettingsScreen(),
         },
         theme: ThemeData.light().copyWith(
@@ -173,10 +176,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      bookInfoContainer(0.5, () {
-                        // alle Infos zum aktuellen Buch
-                        // Logik
-                      }),
+                      CurrentlyInfoContainer(
+                        bookProgress: 0.5, // Dummy-Wert
+                        onUpdatePressed: () {}, // Dummy-Funktion
+                      ),
                       const SizedBox(height: 15),
                     ],
                   ),

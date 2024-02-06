@@ -4,9 +4,9 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../backend/styles/theme.dart';
+import '../../../backend/widgets/bookInfoContainer.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/styles/appbar.dart';
-import '../../../backend/widgets/showMoveBookDialog.dart';
 import '../../profil/presentation/profile_screen.dart';
 
 void main() {

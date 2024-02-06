@@ -37,6 +37,7 @@ class _RandomGeneratorScreenState extends State<RandomGeneratorScreen> {
         backgroundColor: CustomTheme.darkRed,
         elevation: 0,
         leading: IconButton(
+          color: CustomTheme.snowWhite,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Zurücknavigieren
@@ -78,11 +79,11 @@ class _RandomGeneratorScreenState extends State<RandomGeneratorScreen> {
           ),
           const SizedBox(height: 10),
           const Text(
-            "Was möchtest du heute lesen",
+            "Was möchtest du heute lesen?",
             style: TextStyle(
               fontFamily: 'DancingScript',
               fontWeight: FontWeight.normal,
-              fontSize: 18,
+              fontSize: 22,
               color: Colors.white,
             ),
           ),
