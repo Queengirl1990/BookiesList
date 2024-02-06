@@ -113,7 +113,7 @@ class _AGBScreenState extends State<AGBScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
+        index: 2,
         backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,

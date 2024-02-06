@@ -96,7 +96,7 @@ class _LicensesScreenState extends State<LicensesScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
+        index: 2,
         backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,
@@ -167,7 +167,7 @@ class _LicensesScreenState extends State<LicensesScreen> {
           ),
           TextButton(
             onPressed: () {
-              // Open license URL
+              // mehr
             },
             child: Text(
               licenseUrl,

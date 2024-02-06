@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           appBar: customAppBar(context),
           body: const SupportScreen(),
           bottomNavigationBar: CurvedNavigationBar(
-            index: 1,
+            index: 2,
             backgroundColor: CustomTheme.loginGradientStart,
             color: CustomTheme.darkMode,
             buttonBackgroundColor: CustomTheme.darkMode,

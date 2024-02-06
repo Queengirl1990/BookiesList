@@ -24,21 +24,21 @@ class MyApp extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: const SettingsScreen(),
+          child: const NewsLetterScreen(),
         ),
       ),
     );
   }
 }
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class NewsLetterScreen extends StatefulWidget {
+  const NewsLetterScreen({Key? key}) : super(key: key);
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _NewsLetterScreenState createState() => _NewsLetterScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _NewsLetterScreenState extends State<NewsLetterScreen> {
   bool _isSubscribed = false;
 
   @override
@@ -73,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const SizedBox(height: 20),
             const Text(
-              "Einstellungen",
+              "Newsletter",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -85,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 20),
             Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Text(
                     "Newsletter abonnieren",
                     style: TextStyle(

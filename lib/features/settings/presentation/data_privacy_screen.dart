@@ -80,7 +80,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
+        index: 2,
         backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,

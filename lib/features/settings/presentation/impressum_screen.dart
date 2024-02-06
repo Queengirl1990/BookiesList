@@ -78,7 +78,7 @@ class _ImpressumScreenState extends State<ImpressumScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
+        index: 2,
         backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,

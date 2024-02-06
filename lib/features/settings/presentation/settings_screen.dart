@@ -1,3 +1,9 @@
+import 'package:bookieslist/features/settings/presentation/agbs_screen.dart';
+import 'package:bookieslist/features/settings/presentation/contact_support_screen.dart';
+import 'package:bookieslist/features/settings/presentation/data_privacy_screen.dart';
+import 'package:bookieslist/features/settings/presentation/impressum_screen.dart';
+import 'package:bookieslist/features/settings/presentation/licenses_screen.dart';
+import 'package:bookieslist/features/settings/presentation/newsletter_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../../../backend/styles/appbar.dart';
@@ -5,9 +11,8 @@ import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../home/presentation/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+//navigation noch unsauber bei Support und Impressum
+// hintergrund implementierung überarbeiten AGB, Datenschutz, Lizenzen, Newsletter
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,6 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/agb': (context) => const AGBScreen(),
+        '/support': (context) => const SupportScreen(),
+        '/privacy': (context) => const PrivacyScreen(),
+        '/impressum': (context) => const ImpressumScreen(),
+        '/licenses': (context) => const LicensesScreen(),
+        '/newsLetter': (context) => const NewsLetterScreen(),
+      },
       theme: CustomTheme.getAppTheme(),
       home: Scaffold(
         body: Container(
@@ -118,7 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/contactSupport');
+                Navigator.pushNamed(context, '/support');
               },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -264,7 +277,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
+        index: 2,
         backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,

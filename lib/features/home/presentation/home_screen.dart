@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           '/randomGenerator': (context) => const RandomGeneratorScreen(),
           '/currentlyReading': (context) => const CurrentlyReadingScreen(),
           '/newBook': (context) => NewBookAdd(),
-          // '/settings': (context) => const SettingsScreen(),
+          '/settings': (context) => const SettingsScreen(),
         },
         theme: ThemeData.light().copyWith(
           primaryColor: CustomTheme.darkRed,
