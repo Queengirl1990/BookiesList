@@ -1,19 +1,19 @@
-import 'package:bookieslist/features/settings/presentation/agbs_screen.dart';
-import 'package:bookieslist/features/settings/presentation/contact_support_screen.dart';
-import 'package:bookieslist/features/settings/presentation/data_privacy_screen.dart';
-import 'package:bookieslist/features/settings/presentation/impressum_screen.dart';
-import 'package:bookieslist/features/settings/presentation/licenses_screen.dart';
-import 'package:bookieslist/features/settings/presentation/newsletter_screen.dart';
+import 'package:bookieslist/features/settings/presentation/support_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 import '../../../backend/styles/appbar.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../home/presentation/home_screen.dart';
+import 'agbs_screen.dart';
+import 'impressum_screen.dart';
+import 'privacy_screen.dart';
+import 'licenses_screen.dart';
+import 'newsletter_screen.dart';
 
 //navigation noch unsauber bei Support und Impressum
 // hintergrund implementierung überarbeiten AGB, Datenschutz, Lizenzen, Newsletter
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -218,7 +218,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/licenses');
+                Navigator.pushNamed(context, '/impressum');
               },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(

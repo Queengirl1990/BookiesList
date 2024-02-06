@@ -1,211 +1,265 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/randome_generator.dart';
-
-//aufruf mycircularavatar und divider einarbeiten
+import 'random_generator_result_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: RandomGeneratorScreen(),
+    return MaterialApp(
+      theme: ThemeData.light().copyWith(
+        primaryColor: CustomTheme.darkRed,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      ),
+      home: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: <Color>[
+              CustomTheme.loginGradientStart,
+              CustomTheme.loginGradientEnd,
+            ],
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 1.0),
+            stops: <double>[0.0, 1.0],
+            tileMode: TileMode.clamp,
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: CustomTheme.loginGradientStart,
+              offset: Offset(1.0, 6.0),
+              blurRadius: 20.0,
+            ),
+            BoxShadow(
+              color: CustomTheme.loginGradientEnd,
+              offset: Offset(1.0, 6.0),
+              blurRadius: 20.0,
+            ),
+          ],
+        ),
+        child: const RandomGeneratorScreen(),
+      ),
     );
   }
 }
 
 class RandomGeneratorScreen extends StatefulWidget {
-  const RandomGeneratorScreen({super.key});
+  const RandomGeneratorScreen({Key? key}) : super(key: key);
 
   @override
   _RandomGeneratorScreenState createState() => _RandomGeneratorScreenState();
 }
 
 class _RandomGeneratorScreenState extends State<RandomGeneratorScreen> {
-  int currentPageIndex = 0;
+  late List<String> selectedGenres = [];
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedGenres();
+  }
+
+  _loadSelectedGenres() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedGenres = prefs.getStringList('selectedGenres') ?? [];
+    });
+  }
+
+  _saveSelectedGenres() async {
+    await prefs.setStringList('selectedGenres', selectedGenres);
+  }
+
+  _navigateToRandomGeneratorResultScreen() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RandomGeneratorResultScreen(),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomTheme.darkRed,
-        elevation: 0,
-        leading: IconButton(
-          color: CustomTheme.snowWhite,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Zurücknavigieren
-          },
-        ),
-        actions: const [
-          MyCircularAvatar(),
-        ],
-      ),
-      backgroundColor: CustomTheme.darkRed,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            width: 320,
-            child: Divider(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
               color: CustomTheme.snowWhite,
-              height: 20,
-              thickness: 2,
             ),
-          ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
-              SizedBox(width: 10),
-              Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
-              SizedBox(width: 10),
-              Icon(Icons.favorite, size: 20, color: CustomTheme.lightGrey),
-            ],
-          ),
-          const SizedBox(
-            width: 320,
-            child: Divider(
-              color: CustomTheme.snowWhite,
-              height: 20,
-              thickness: 2,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            "Was möchtest du heute lesen?",
-            style: TextStyle(
-              fontFamily: 'DancingScript',
-              fontWeight: FontWeight.normal,
-              fontSize: 22,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            //mehrauswahl möglich machen
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 3.17,
-              ),
-              itemCount: 27,
-              itemBuilder: (context, index) {
-                return MyButton(
-                  text: buttonTitles[index],
-                  onPressed: () {
-                    // Auswahllogik implementieren
-                  },
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 30),
-          MyButton(
-            text: "Generator Starten",
             onPressed: () {
-              // Funktion
+              _saveSelectedGenres();
+              Navigator.pop(context);
             },
           ),
-          const SizedBox(height: 50),
-        ],
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: currentPageIndex,
-        backgroundColor: CustomTheme.darkRed,
-        color: CustomTheme.darkMode,
-        buttonBackgroundColor: CustomTheme.darkMode,
-        onTap: (int index) {
-          setState(() {
-            currentPageIndex = index;
-            if (index == 1) {
-              Navigator.pushNamed(context, '/unreadBooks');
-            }
-          });
-        },
-        items: const <Widget>[
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.menu_book, size: 30, color: Colors.white),
-          Icon(Icons.settings, size: 30, color: Colors.white),
-          Icon(Icons.help_outline, size: 30, color: CustomTheme.darkRed),
-        ],
-      ),
-    );
-  }
-}
-
-class MyCircularAvatar extends StatelessWidget {
-  const MyCircularAvatar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        color: CustomTheme.snowWhite,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(1, 1),
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: Image.asset(
-          'assets/images/avatar.png',
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-}
-
-class MyButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-
-  const MyButton({super.key, required this.text, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+          title: const Text(
+            "Deine Zufallsgenerator",
+            style: TextStyle(
+              color: CustomTheme.snowWhite,
+              fontFamily: 'DancingScript',
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
             ),
           ),
         ),
-        child: Container(
-          width: 200,
-          height: 40,
-          alignment: Alignment.center,
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 12,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "Was möchtest du heute lesen? Du musst dich nicht für ein Genre entscheiden",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: CustomTheme.snowWhite,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            YourBodyWidget(selectedGenres: selectedGenres),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            _saveSelectedGenres();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Auswahl gespeichert!'),
+              ),
+            );
+            _navigateToRandomGeneratorResultScreen();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            onPrimary: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            shadowColor: CustomTheme.darkMode,
+            elevation: 5,
+          ),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            child: Text('Weiter'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class YourBodyWidget extends StatefulWidget {
+  final List<String> selectedGenres;
+
+  const YourBodyWidget({Key? key, required this.selectedGenres})
+      : super(key: key);
+
+  @override
+  _YourBodyWidgetState createState() => _YourBodyWidgetState();
+}
+
+class _YourBodyWidgetState extends State<YourBodyWidget> {
+  void _toggleGenre(String genre) {
+    if (widget.selectedGenres.contains(genre)) {
+      widget.selectedGenres.remove(genre);
+    } else {
+      widget.selectedGenres.add(genre);
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Widget _buildAnimatedButton(String genre, bool isSelected) {
+    return GestureDetector(
+      onTap: () {
+        _toggleGenre(genre);
+      },
+      child: Container(
+        height: 50,
+        width: 180,
+        decoration: BoxDecoration(
+          color: isSelected ? CustomTheme.darkRed : Colors.white,
+          border: Border.all(
+            color: Colors.white,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
               color: CustomTheme.darkMode,
+              offset: Offset(2, 2),
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            genre,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? CustomTheme.snowWhite : CustomTheme.darkMode,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(
+          (buttonTitles.length / 2).ceil(),
+          (rowIndex) {
+            final startIdx = rowIndex * 2;
+            final endIdx = (rowIndex + 1) * 2;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                endIdx - startIdx,
+                (index) {
+                  final genreIndex = startIdx + index;
+                  if (genreIndex < buttonTitles.length) {
+                    final genre = buttonTitles[genreIndex];
+                    final isSelected = widget.selectedGenres.contains(genre);
+
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildAnimatedButton(genre, isSelected),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            );
+          },
         ),
       ),
     );
