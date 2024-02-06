@@ -3,9 +3,7 @@ import 'package:bookieslist/backend/widgets/bookieslist_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../../../backend/styles/appbar.dart';
-import '../../home/presentation/home_screen.dart';
 
 void main() {
   runApp(

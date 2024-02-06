@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../backend/styles/theme.dart';
-import '../data/login_page.dart';
 
 //screen plötzlich halb leer was ist jetzt?
 void main() => runApp(ProviderScope(

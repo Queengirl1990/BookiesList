@@ -6,10 +6,6 @@ import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/widgets/randome_generator.dart';
 import '../../home/presentation/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -18,9 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: CustomTheme.getAppTheme(),
       home: Scaffold(
-        body: Container(
-          decoration: CustomTheme.getBackgroundGradient(),
-          child: const RandomGeneratorResultScreen(),
+        body: Stack(
+          children: [
+            Container(
+              decoration: CustomTheme.getBackgroundGradient(),
+            ),
+            const RandomGeneratorResultScreen(),
+          ],
         ),
       ),
     );
@@ -167,8 +167,8 @@ class _RandomGeneratorResultScreenState
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
-        backgroundColor: CustomTheme.loginGradientStart,
+        index: 3,
+        backgroundColor: Colors.transparent,
         color: CustomTheme.darkMode,
         buttonBackgroundColor: CustomTheme.darkMode,
         onTap: (int index) {
