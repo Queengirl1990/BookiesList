@@ -1,4 +1,3 @@
-import 'package:bookieslist/features/randomegenerator/presentation/random_generator_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../../../backend/styles/appbar.dart';
