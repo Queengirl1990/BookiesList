@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/libary/read_books_datenbank.dart';
@@ -29,8 +30,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyProfilPage extends StatelessWidget {
+class MyProfilPage extends StatefulWidget {
   const MyProfilPage({Key? key}) : super(key: key);
+
+  @override
+  _MyProfilPageState createState() => _MyProfilPageState();
+}
+
+class _MyProfilPageState extends State<MyProfilPage> {
+  int currentPageIndex = 0; // Variable für die aktuelle Seite
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +211,41 @@ class MyProfilPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: currentPageIndex,
+        backgroundColor: Colors.transparent,
+        color: CustomTheme.darkMode,
+        buttonBackgroundColor: CustomTheme.darkMode,
+        onTap: (int index) {
+          setState(() {
+            currentPageIndex = index;
+            switch (index) {
+              case 0:
+                // Home Icon - Zu HomeScreen navigieren
+                Navigator.pushNamed(context, '/');
+                break;
+              case 1:
+                // Menu Book - Zu UnreadBooks navigieren
+                Navigator.pushNamed(context, '/unreadBooks');
+                break;
+              case 2:
+                // Settings - Zum SettingsScreen navigieren
+                Navigator.pushNamed(context, '/settings');
+                break;
+              case 3:
+                // Help Outline - Zum RandomGeneratorScreen navigieren
+                Navigator.pushNamed(context, '/randomGenerator');
+                break;
+            }
+          });
+        },
+        items: const <Widget>[
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.menu_book, size: 30, color: Colors.white),
+          Icon(Icons.settings, size: 30, color: Colors.white),
+          Icon(Icons.help_outline, size: 30, color: Colors.white),
+        ],
       ),
     );
   }
