@@ -1,3 +1,4 @@
+import 'package:bookieslist/features/bookSuggestions/presentation/add_book_suggestion.dart';
 import 'package:bookieslist/features/currentlyBook/presentation/currently_reading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -12,7 +13,7 @@ import '../../unreadBooks/presentation/give_away_screen.dart';
 import '../../unreadBooks/presentation/limited_edition_screen.dart';
 import '../../unreadBooks/presentation/new_list_screen.dart';
 import '../../unreadBooks/presentation/wishlist_screen.dart';
-import '../../randomegenerator/presentation/randome_generator_screen.dart';
+import '../../randomegenerator/presentation/random_generator_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
 
 void main() {
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           '/newList': (context) => const NewListScreen(),
           '/randomGenerator': (context) => const RandomGeneratorScreen(),
           '/currentlyReading': (context) => const CurrentlyReadingScreen(),
+          '/newBook': (context) => NewBookAdd(),
           // '/settings': (context) => const SettingsScreen(),
         },
         theme: ThemeData.light().copyWith(
@@ -365,6 +367,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: const Center(
                           child: Text(
                             "Zufallsgenerator",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/newBook');
+                        },
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(0),
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(CustomTheme.snowWhite),
+                          foregroundColor:
+                              MaterialStateProperty.all(CustomTheme.darkMode),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Neues Buch",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
