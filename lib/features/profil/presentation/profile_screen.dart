@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/libary/read_books_datenbank.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
-import '../../home/presentation/home_screen.dart';
 import '../../readBooks/presentation/read_books_screen.dart';
 import 'edit_profile_screen.dart';
 import 'your_genres_screen.dart';
@@ -16,8 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/homeScreen': (context) => const HomeScreen(),
-        '/editProfil': (context) => const EditProfilScreen(),
+        '/': (context) => const MyProfilPage(),
+        '/editProfile': (context) => const EditProfilScreen(),
         '/readBooks': (context) => const ReadBooksScreen(),
         '/yourGenres': (context) => const YourGenresScreen(),
       },
@@ -94,7 +93,11 @@ class _MyProfilPageState extends State<MyProfilPage> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/editProfil');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfilScreen()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomTheme.snowWhite,
@@ -161,7 +164,11 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/readBooks');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ReadBooksScreen()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -187,7 +194,11 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/yourGenres');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const YourGenresScreen()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
