@@ -1,51 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/bookInfoContainer.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/styles/appbar.dart';
 import '../../profil/presentation/profile_screen.dart';
 import '../../../backend/widgets/showBookUpdate.dart';
-
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: <Color>[
-            CustomTheme.loginGradientStart,
-            CustomTheme.loginGradientEnd,
-          ],
-          begin: FractionalOffset(0.0, 0.0),
-          end: FractionalOffset(1.0, 1.0),
-          stops: <double>[0.0, 1.0],
-          tileMode: TileMode.clamp,
-        ),
-      ),
-      child: MaterialApp(
-        home: const CurrentlyReadingScreen(),
-        theme: ThemeData.light().copyWith(
-          primaryColor: CustomTheme.darkRed,
-          scaffoldBackgroundColor: Colors.transparent,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class CurrentlyReadingScreen extends StatefulWidget {
   const CurrentlyReadingScreen({Key? key}) : super(key: key);
@@ -165,6 +128,9 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
     ).show();
   }
 
+  int currentPageIndex =
+      0; // Hinzufügen des Index für die aktuelle Seite im bottomNavigationBar
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -262,6 +228,41 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: currentPageIndex,
+        backgroundColor: Colors.transparent,
+        color: CustomTheme.darkMode,
+        buttonBackgroundColor: CustomTheme.darkMode,
+        onTap: (int index) {
+          setState(() {
+            currentPageIndex = index;
+            switch (index) {
+              case 0:
+                // Home Icon - Zu HomeScreen navigieren
+                Navigator.pushNamed(context, '/');
+                break;
+              case 1:
+                // Menu Book - Zu UnreadBooks navigieren
+                Navigator.pushNamed(context, '/unreadBooks');
+                break;
+              case 2:
+                // Settings - Zum SettingsScreen navigieren
+                Navigator.pushNamed(context, '/settings');
+                break;
+              case 3:
+                // Help Outline - Zum RandomGeneratorScreen navigieren
+                Navigator.pushNamed(context, '/randomGenerator');
+                break;
+            }
+          });
+        },
+        items: const <Widget>[
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.menu_book, size: 30, color: Colors.white),
+          Icon(Icons.settings, size: 30, color: Colors.white),
+          Icon(Icons.help_outline, size: 30, color: Colors.white),
+        ],
       ),
     );
   }
