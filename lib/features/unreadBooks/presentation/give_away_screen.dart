@@ -7,10 +7,6 @@ import '../../../backend/widgets/showDialog.dart';
 import '../../../backend/libary/unread_books_datenbank.dart';
 import '../../home/presentation/home_screen.dart';
 
-void main() {
-  runApp(const GiveAwayScreen());
-}
-
 class GiveAwayScreen extends StatelessWidget {
   const GiveAwayScreen({Key? key});
 
@@ -85,7 +81,10 @@ class _GiveAwayPageState extends State<GiveAwayPage> {
                 color: CustomTheme.snowWhite,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  );
                 },
               ),
               actions: [
@@ -180,12 +179,7 @@ class _GiveAwayPageState extends State<GiveAwayPage> {
         buttonBackgroundColor: CustomTheme.darkMode,
         onTap: (int index) {
           if (index == 0) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-              (route) => false,
-            );
+            Navigator.pop(context);
           }
         },
         items: const <Widget>[
