@@ -1,13 +1,14 @@
-import 'package:bookieslist/backend/widgets/showBookUpdate.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../backend/styles/theme.dart';
 import '../../../backend/widgets/bookInfoContainer.dart';
 import '../../../backend/widgets/bookieslist_widgets.dart';
 import '../../../backend/styles/appbar.dart';
 import '../../profil/presentation/profile_screen.dart';
+import '../../../backend/widgets/showBookUpdate.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -54,6 +55,26 @@ class CurrentlyReadingScreen extends StatefulWidget {
 }
 
 class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
+  double rating = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRating();
+  }
+
+  void _loadRating() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      rating = prefs.getDouble('rating') ?? 0.0;
+    });
+  }
+
+  void _saveRating(double newRating) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('rating', newRating);
+  }
+
   double bookProgress = 0.85;
 
   void showMoveBookDialog() {
@@ -171,7 +192,7 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
             const SizedBox(height: 20),
             Center(
               child: RatingBar.builder(
-                initialRating: 0.0,
+                initialRating: rating,
                 minRating: 1,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
@@ -181,7 +202,9 @@ class _CurrentlyReadingScreenState extends State<CurrentlyReadingScreen> {
                   Icons.star,
                   color: CustomTheme.guelden,
                 ),
-                onRatingUpdate: (rating) {},
+                onRatingUpdate: (rating) {
+                  _saveRating(rating);
+                },
               ),
             ),
             Padding(

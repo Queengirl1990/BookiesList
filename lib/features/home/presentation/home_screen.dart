@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 20),
                       CurrentlyInfoContainer(
-                        bookProgress: 0.5, // Dummy-Wert
+                        bookProgress: 0.85, // Dummy-Wert
                         onUpdatePressed: () {}, // Dummy-Funktion
                       ),
                       const SizedBox(height: 15),

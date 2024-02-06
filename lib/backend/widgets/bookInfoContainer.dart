@@ -14,7 +14,7 @@ Widget bookInfoContainer(double bookProgress, VoidCallback onUpdatePressed) {
         border: Border.all(color: Colors.grey),
         boxShadow: const [
           BoxShadow(
-            color: Colors.grey,
+            color: CustomTheme.snowWhite,
             offset: Offset(0, 2),
             blurRadius: 4,
           ),
@@ -132,10 +132,10 @@ class CurrentlyInfoContainer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: CustomTheme.snowWhite,
-          border: Border.all(color: Colors.grey),
+          border: Border.all(color: CustomTheme.snowWhite),
           boxShadow: const [
             BoxShadow(
-              color: Colors.grey,
+              color: CustomTheme.snowWhite,
               offset: Offset(0, 2),
               blurRadius: 4,
             ),
